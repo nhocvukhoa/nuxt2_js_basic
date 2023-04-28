@@ -3,28 +3,32 @@
     <h3>List of your card</h3>
     <ul class="decks-list">
       <li>
-        <div class="card deck-card">
-          <img
-            src="https://e0.pxfuel.com/wallpapers/160/477/desktop-wallpaper-english-english-background-on-bat-english-word.jpg"
-            alt="Thumbnail card"
-          />
-          <div class="card_body">
-            <h3>Title card</h3>
-            <p>Description card</p>
+        <nuxt-link to="/decks/1">
+          <div class="card deck-card">
+            <img
+              src="https://e0.pxfuel.com/wallpapers/160/477/desktop-wallpaper-english-english-background-on-bat-english-word.jpg"
+              alt="Thumbnail card"
+            />
+            <div class="card_body">
+              <h3>Title card</h3>
+              <p>Description card</p>
+            </div>
           </div>
-        </div>
+        </nuxt-link>
       </li>
       <li>
-        <div class="card deck-card">
-          <img
-            src="https://e0.pxfuel.com/wallpapers/160/477/desktop-wallpaper-english-english-background-on-bat-english-word.jpg"
-            alt="Thumbnail card"
-          />
-          <div class="card_body">
-            <h3>Title card</h3>
-            <p>Description card</p>
+        <nuxt-link to="/decks/2">
+          <div class="card deck-card">
+            <img
+              src="https://e0.pxfuel.com/wallpapers/160/477/desktop-wallpaper-english-english-background-on-bat-english-word.jpg"
+              alt="Thumbnail card"
+            />
+            <div class="card_body">
+              <h3>Title card</h3>
+              <p>Description card</p>
+            </div>
           </div>
-        </div>
+        </nuxt-link>
       </li>
     </ul>
   </div>
@@ -42,9 +46,6 @@ export default {
 
 <style lang="scss">
 .decks-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
   li {
     margin-bottom: 1rem;
     &:last-child {
