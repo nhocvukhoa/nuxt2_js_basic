@@ -39,7 +39,7 @@
       </ul>
     </div>
     <VueModal name="createDeckModal">
-      <div class="test_body">
+      <div class="modal_body">
         <h2>Create deck</h2>
         <form action="">
           <div class="form_group">
@@ -117,10 +117,8 @@ export default {
     }
   }
 }
-</style>
 
-<style lang="scss" scoped>
-.test_body {
+.modal_body {
   background: #fff;
   padding: 1rem;
 }

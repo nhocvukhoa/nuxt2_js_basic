@@ -5,7 +5,9 @@
         <h3>Deck {{ $route.params.id }}: Learn english</h3>
         <div class="tools">
           <button class="btn btn_success">Start now</button>
-          <button class="btn btn_primary">Add more card</button>
+          <button class="btn btn_primary" @click.prevent="openModal">
+            Create a card
+          </button>
         </div>
         <hr class="divide" />
         <div class="cards">
@@ -26,6 +28,48 @@
           </div>
         </div>
       </div>
+
+      <!-- Modal -->
+      <VueModal name="createCardModal">
+        <div class="modal_body">
+          <h2>Create a new card</h2>
+          <form action="">
+            <div class="form_group">
+              <label for="">Name:</label>
+              <input
+                type="text"
+                class="form_control"
+                placeholder="Please enter deck name"
+              />
+            </div>
+            <div class="form_group">
+              <label for="">Description:</label>
+              <textarea
+                class="form_control"
+                cols="30"
+                rows="10"
+                placeholder="Please enter description"
+              ></textarea>
+            </div>
+            <div class="form_group">
+              <label for="">Thumbnail:</label>
+              <input type="file" />
+              <div class="previewImage"></div>
+            </div>
+            <div class="form_group d_flex justify_content_end">
+              <button
+                class="btn btn_danger btnCloseModal"
+                @click.prevent="closeModal"
+              >
+                Close
+              </button>
+              <button class="btn btn_success ml_3" @click.prevent="createDeck">
+                Create
+              </button>
+            </div>
+          </form>
+        </div>
+      </VueModal>
     </div>
   </section>
 </template>
@@ -35,6 +79,14 @@ export default {
   validate({ params }) {
     // Must be a number
     return /^\d+$/.test(params.id)
+  },
+  methods: {
+    openModal() {
+      this.$modal.open({ name: 'createCardModal' })
+    },
+    closeModal() {
+      this.$modal.close({ name: 'createCardModal' })
+    },
   },
 }
 </script>
