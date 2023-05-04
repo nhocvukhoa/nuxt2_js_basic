@@ -12,16 +12,13 @@
         <hr class="divide" />
         <div class="cards">
           <div class="r">
-            <div class="c_3">
+            <div v-for="card in cards" :key="card._id" class="c_3">
               <div class="card">
                 <div class="front-card">
-                  <img
-                    src="https://gotrangtri.vn/wp-content/uploads/2020/07/thiet-ke-shop-quan-ao.jpg"
-                    alt="Thumbnail card"
-                  />
+                  <img :src="card.picture" alt="Thumbnail card" />
                 </div>
                 <div class="back-card">
-                  <h6>Shop</h6>
+                  <h6>{{ card.keyword }}</h6>
                 </div>
               </div>
             </div>
@@ -79,6 +76,24 @@ export default {
   validate({ params }) {
     // Must be a number
     return /^\d+$/.test(params.id)
+  },
+  data() {
+    return {
+      cards: [
+        {
+          _id: 1,
+          picture:
+            'https://gotrangtri.vn/wp-content/uploads/2020/07/thiet-ke-shop-quan-ao.jpg',
+          keyword: 'Picture 1',
+        },
+        {
+          _id: 2,
+          picture:
+            'https://gotrangtri.vn/wp-content/uploads/2020/07/thiet-ke-shop-quan-ao.jpg',
+          keyword: 'Picture 2',
+        },
+      ],
+    }
   },
   methods: {
     openModal() {

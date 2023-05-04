@@ -8,30 +8,13 @@
         </button>
       </div>
       <ul class="decks-list">
-        <li>
+        <li v-for="deck in decks" :key="deck._id">
           <nuxt-link to="/decks/1">
             <div class="card deck-card">
-              <img
-                src="https://e0.pxfuel.com/wallpapers/160/477/desktop-wallpaper-english-english-background-on-bat-english-word.jpg"
-                alt="Thumbnail card"
-              />
+              <img :src="deck.thumbnail" :alt="`Thumbnail of ${deck.title}`" />
               <div class="card_body">
-                <h3>Title card</h3>
-                <p>Description card</p>
-              </div>
-            </div>
-          </nuxt-link>
-        </li>
-        <li>
-          <nuxt-link to="/decks/2">
-            <div class="card deck-card">
-              <img
-                src="https://e0.pxfuel.com/wallpapers/160/477/desktop-wallpaper-english-english-background-on-bat-english-word.jpg"
-                alt="Thumbnail card"
-              />
-              <div class="card_body">
-                <h3>Title card</h3>
-                <p>Description card</p>
+                <h3>{{ deck.name }}</h3>
+                <p>{{ deck.description }}</p>
               </div>
             </div>
           </nuxt-link>
@@ -86,6 +69,22 @@ export default {
   data() {
     return {
       deckID: 1,
+      decks: [
+        {
+          _id: 1,
+          name: 'Learn English',
+          description: 'Lorem 1',
+          thumbnail:
+            'https://e0.pxfuel.com/wallpapers/160/477/desktop-wallpaper-english-english-background-on-bat-english-word.jpg',
+        },
+        {
+          _id: 2,
+          name: 'Learn English 2',
+          description: 'Lorem 2',
+          thumbnail:
+            'https://e0.pxfuel.com/wallpapers/160/477/desktop-wallpaper-english-english-background-on-bat-english-word.jpg',
+        },
+      ],
     }
   },
   methods: {
