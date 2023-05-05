@@ -66,6 +66,11 @@ export default {
   components: {
     DeckList,
   },
+  // 1. Nuxt hoạt động khi lần đầu tiên trang web dc refresh thì lúc đó sử dụng sever render các DOM để các search engine có thể đọc được
+  // 2. Nên khi resfresh lần đầu tiên thì asyncData đang hoạt động với nuxt trên server nên console sẽ xuất hiện trong terminal của serve
+  // 3. Từ lần thứ 2, ko hề refresh và thực hiện mọi thứ trên DOM thì mọi thứ trở về single page , tất cả mọi thứ do Vue xử lý
+  // 4. Nên console thực thi ở client
+  asyncData() {},
   data() {
     return {
       deckID: 1,
