@@ -101,6 +101,11 @@ export default {
       deckID: 1,
     }
   },
+  created() {
+    this.$store.dispatch('setDecks', this.decks)
+    // eslint-disable-next-line no-console
+    console.log(this.$store.getters.decks)
+  },
   methods: {
     openModal() {
       this.$modal.open({ name: 'createDeckModal' })
