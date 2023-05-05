@@ -1,7 +1,7 @@
 <template>
   <div>
     <li>
-      <nuxt-link to="/decks/1">
+      <nuxt-link :to="`/decks/${id}`">
         <div class="card deck-card">
           <img :src="thumbnail" :alt="`Thumbnail of ${name}`" />
           <div class="card_body">
@@ -17,6 +17,10 @@
 <script>
 export default {
   props: {
+    id: {
+      type: Number,
+      required: true,
+    },
     name: {
       type: String,
       required: true,

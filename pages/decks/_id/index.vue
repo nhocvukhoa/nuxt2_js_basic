@@ -2,7 +2,7 @@
   <section>
     <div class="r">
       <div class="ct text_center">
-        <h3>Deck {{ $route.params.id }}: Learn english</h3>
+        <h3>Deck #{{ $route.params.id }}: {{ deck.name }}</h3>
         <div class="tools">
           <button class="btn btn_success">Start now</button>
           <button class="btn btn_primary" @click.prevent="openModal">
@@ -77,6 +77,23 @@ export default {
   validate({ params }) {
     // Must be a number
     return /^\d+$/.test(params.id)
+  },
+  // Không thể sử dụng được this vì lúc này DOM chưa được khởi tạo
+  asyncData(context) {
+    return new Promise((resolve, reject) => {
+      // eslint-disable-next-line nuxt/no-timing-in-fetch-data
+      setTimeout(() => {
+        resolve({
+          deck: {
+            _id: 1,
+            name: `Learn English by deck ${context.params.id}`,
+            description: 'Lorem 1',
+            thumbnail:
+              'https://e0.pxfuel.com/wallpapers/160/477/desktop-wallpaper-english-english-background-on-bat-english-word.jpg',
+          },
+        })
+      }, 1500)
+    })
   },
   data() {
     return {
