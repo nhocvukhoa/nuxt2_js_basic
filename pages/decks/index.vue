@@ -71,26 +71,34 @@ export default {
   // 2. Nên khi resfresh lần đầu tiên thì asyncData đang hoạt động với nuxt trên server nên console sẽ xuất hiện trong terminal của serve
   // 3. Từ lần thứ 2, ko hề refresh và thực hiện mọi thứ trên DOM thì mọi thứ trở về single page , tất cả mọi thứ do Vue xử lý
   // 4. Nên console thực thi ở client
-  asyncData() {},
+  asyncData(context) {
+    return new Promise((resolve, reject) => {
+      // eslint-disable-next-line nuxt/no-timing-in-fetch-data
+      setTimeout(() => {
+        resolve({
+          decks: [
+            {
+              _id: 1,
+              name: 'Learn English',
+              description: 'Lorem 1',
+              thumbnail:
+                'https://e0.pxfuel.com/wallpapers/160/477/desktop-wallpaper-english-english-background-on-bat-english-word.jpg',
+            },
+            {
+              _id: 2,
+              name: 'Learn English 2',
+              description: 'Lorem 2',
+              thumbnail:
+                'https://e0.pxfuel.com/wallpapers/160/477/desktop-wallpaper-english-english-background-on-bat-english-word.jpg',
+            },
+          ],
+        })
+      }, 1500)
+    })
+  },
   data() {
     return {
       deckID: 1,
-      decks: [
-        {
-          _id: 1,
-          name: 'Learn English',
-          description: 'Lorem 1',
-          thumbnail:
-            'https://e0.pxfuel.com/wallpapers/160/477/desktop-wallpaper-english-english-background-on-bat-english-word.jpg',
-        },
-        {
-          _id: 2,
-          name: 'Learn English 2',
-          description: 'Lorem 2',
-          thumbnail:
-            'https://e0.pxfuel.com/wallpapers/160/477/desktop-wallpaper-english-english-background-on-bat-english-word.jpg',
-        },
-      ],
     }
   },
   methods: {

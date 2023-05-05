@@ -79,21 +79,21 @@ export default {
     return /^\d+$/.test(params.id)
   },
   // Không thể sử dụng được this vì lúc này DOM chưa được khởi tạo
-  asyncData(context, callback) {
-    // eslint-disable-next-line no-console
-    console.log(context)
-    // eslint-disable-next-line nuxt/no-timing-in-fetch-data
-    setTimeout(() => {
-      callback(null, {
-        deck: {
-          _id: 1,
-          name: `Learn English by deck ${context.params.id}`,
-          description: 'Lorem 1',
-          thumbnail:
-            'https://e0.pxfuel.com/wallpapers/160/477/desktop-wallpaper-english-english-background-on-bat-english-word.jpg',
-        },
-      })
-    }, 1500)
+  asyncData(context) {
+    return new Promise((resolve, reject) => {
+      // eslint-disable-next-line nuxt/no-timing-in-fetch-data
+      setTimeout(() => {
+        resolve({
+          deck: {
+            _id: 1,
+            name: `Learn English by deck ${context.params.id}`,
+            description: 'Lorem 1',
+            thumbnail:
+              'https://e0.pxfuel.com/wallpapers/160/477/desktop-wallpaper-english-english-background-on-bat-english-word.jpg',
+          },
+        })
+      }, 1500)
+    })
   },
   data() {
     return {
