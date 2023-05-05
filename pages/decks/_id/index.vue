@@ -12,16 +12,13 @@
         <hr class="divide" />
         <div class="cards">
           <div class="r">
-            <div v-for="card in cards" :key="card._id" class="c_3">
-              <div class="card">
-                <div class="front-card">
-                  <img :src="card.picture" alt="Thumbnail card" />
-                </div>
-                <div class="back-card">
-                  <h6>{{ card.keyword }}</h6>
-                </div>
-              </div>
-            </div>
+            <card-list
+              v-for="card in cards"
+              :key="card._id"
+              :picture="card.picture"
+              :keyword="card.keyword"
+              class="c_3"
+            />
           </div>
         </div>
       </div>
@@ -72,7 +69,11 @@
 </template>
 
 <script>
+import CardList from '@/components/Cards/CardList'
 export default {
+  components: {
+    CardList,
+  },
   validate({ params }) {
     // Must be a number
     return /^\d+$/.test(params.id)
