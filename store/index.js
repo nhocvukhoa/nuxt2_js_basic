@@ -20,6 +20,7 @@ const createStore = () => {
     },
     // Các hàm được thực thi
     actions: {
+      // Đây là một hook mà Nuxt đã chèn vào quá trình khởi tạo, để lấy dữ liệu ban đầu cho VueX store.
       // Nó chỉ được gọi trên máy chủ và được sử dụng để điền dữ liệu lưu trữ cần có ở mỗi lần tải lại trang.
       // Phương thức này là 1 action của VueX, nếu nó được khai báo trong store thì Nuxt.js sẽ gọi action này mỗi khi Nuxt.js bắt đầu lifecycle mới.
       // Do đó phương thức này rất hữu ích khi chúng ta muốn nhận và lưu trữ dữ liệu dùng chung cho tất cả pages từ server vào store của client.
