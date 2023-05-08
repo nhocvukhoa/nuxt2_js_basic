@@ -103,32 +103,32 @@ export default {
   //   console.log(this.$store.getters.decks)
   // },
   // *** fetch
-  async fetch(context) {
-    const data = await new Promise((resolve, reject) => {
-      // eslint-disable-next-line nuxt/no-timing-in-fetch-data
-      setTimeout(() => {
-        resolve({
-          decks: [
-            {
-              _id: 1,
-              name: 'Learn English',
-              description: 'Lorem 1',
-              thumbnail:
-                'https://e0.pxfuel.com/wallpapers/160/477/desktop-wallpaper-english-english-background-on-bat-english-word.jpg',
-            },
-            {
-              _id: 2,
-              name: 'Learn English 2',
-              description: 'Lorem 2',
-              thumbnail:
-                'https://e0.pxfuel.com/wallpapers/160/477/desktop-wallpaper-english-english-background-on-bat-english-word.jpg',
-            },
-          ],
-        })
-      }, 1500)
-    })
-    context.store.dispatch('setDecks', data.decks)
-  },
+  // async fetch(context) {
+  //   const data = await new Promise((resolve, reject) => {
+  //     // eslint-disable-next-line nuxt/no-timing-in-fetch-data
+  //     setTimeout(() => {
+  //       resolve({
+  //         decks: [
+  //           {
+  //             _id: 1,
+  //             name: 'Learn English',
+  //             description: 'Lorem 1',
+  //             thumbnail:
+  //               'https://e0.pxfuel.com/wallpapers/160/477/desktop-wallpaper-english-english-background-on-bat-english-word.jpg',
+  //           },
+  //           {
+  //             _id: 2,
+  //             name: 'Learn English 2',
+  //             description: 'Lorem 2',
+  //             thumbnail:
+  //               'https://e0.pxfuel.com/wallpapers/160/477/desktop-wallpaper-english-english-background-on-bat-english-word.jpg',
+  //           },
+  //         ],
+  //       })
+  //     }, 1500)
+  //   })
+  //   context.store.dispatch('setDecks', data.decks)
+  // },
   computed: {
     decks() {
       return this.$store.getters.decks
