@@ -21,51 +21,21 @@
     <VueModal name="createDeckModal">
       <div class="modal_body">
         <h2>Create deck</h2>
-        <form action="">
-          <div class="form_group">
-            <label for="">Name:</label>
-            <input
-              type="text"
-              class="form_control"
-              placeholder="Please enter deck name"
-            />
-          </div>
-          <div class="form_group">
-            <label for="">Description:</label>
-            <textarea
-              class="form_control"
-              cols="30"
-              rows="10"
-              placeholder="Please enter description"
-            ></textarea>
-          </div>
-          <div class="form_group">
-            <label for="">Thumbnail:</label>
-            <input type="file" />
-            <div class="previewImage"></div>
-          </div>
-          <div class="form_group d_flex justify_content_end">
-            <button
-              class="btn btn_danger btnCloseModal"
-              @click.prevent="closeModal"
-            >
-              Close
-            </button>
-            <button class="btn btn_success ml_3" @click.prevent="createDeck">
-              Create
-            </button>
-          </div>
-        </form>
+        <deck-form @submit="onSubmit" />
       </div>
     </VueModal>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 import DeckList from '@/components/Decks/DeckList'
+import DeckForm from '@/components/Decks/DeckForm'
 export default {
   components: {
     DeckList,
+    DeckForm,
   },
   // *** asyncData
   // 1. Nuxt hoạt động khi lần đầu tiên trang web dc refresh thì lúc đó sử dụng sever render các DOM để các search engine có thể đọc được
@@ -138,8 +108,16 @@ export default {
     openModal() {
       this.$modal.open({ name: 'createDeckModal' })
     },
-    closeModal() {
-      this.$modal.close({ name: 'createDeckModal' })
+    onSubmit(deckData) {
+      axios
+        .post(
+          'https://nuxt-js-basic-default-rtdb.firebaseio.com/decks.json',
+          deckData
+        )
+        .then((data) => {
+          // eslint-disable-next-line no-console
+          console.log(data)
+        })
     },
   },
 }
