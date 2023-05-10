@@ -30,15 +30,30 @@ export default {
   },
   methods: {
     onSubmit(deckData) {
-      axios
-        .post(
-          'https://nuxt-js-basic-default-rtdb.firebaseio.com/decks.json',
-          deckData
-        )
-        .then((data) => {
-          // eslint-disable-next-line no-console
-          console.log(data)
-        })
+      if (deckData && !deckData.id) {
+        axios
+          .post(
+            'https://nuxt-js-basic-default-rtdb.firebaseio.com/decks.json',
+            deckData
+          )
+          .then((data) => {
+            // eslint-disable-next-line no-console
+            console.log(data)
+          })
+      } else {
+        const deckId = deckData.id
+        delete deckData.id
+
+        axios
+          .put(
+            `https://nuxt-js-basic-default-rtdb.firebaseio.com/decks/${deckId}.json`,
+            deckData
+          )
+          .then((data) => {
+            // eslint-disable-next-line no-console
+            console.log(data)
+          })
+      }
     },
   },
 }
