@@ -18,24 +18,15 @@
         />
       </ul>
     </div>
-    <VueModal name="createDeckModal">
-      <div class="modal_body">
-        <h2>Create deck</h2>
-        <deck-form @submit="onSubmit" />
-      </div>
-    </VueModal>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-
 import DeckList from '@/components/Decks/DeckList'
-import DeckForm from '@/components/Decks/DeckForm'
+
 export default {
   components: {
     DeckList,
-    DeckForm,
   },
   // *** asyncData
   // 1. Nuxt hoạt động khi lần đầu tiên trang web dc refresh thì lúc đó sử dụng sever render các DOM để các search engine có thể đọc được
@@ -106,18 +97,7 @@ export default {
   },
   methods: {
     openModal() {
-      this.$modal.open({ name: 'createDeckModal' })
-    },
-    onSubmit(deckData) {
-      axios
-        .post(
-          'https://nuxt-js-basic-default-rtdb.firebaseio.com/decks.json',
-          deckData
-        )
-        .then((data) => {
-          // eslint-disable-next-line no-console
-          console.log(data)
-        })
+      this.$modal.open({ name: 'deckFormModal' })
     },
   },
 }

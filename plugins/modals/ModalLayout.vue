@@ -37,6 +37,7 @@ export default {
     // open event
     VModal.EventBus.$on('open', (params) => {
       if (this.name === params.name) {
+        this.payload = params.payload
         this.open()
       }
     })

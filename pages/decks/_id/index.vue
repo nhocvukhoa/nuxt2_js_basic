@@ -5,8 +5,17 @@
         <h3>Deck: {{ deck.name }}</h3>
         <div class="tools">
           <button class="btn btn_success">Start now</button>
-          <button class="btn btn_primary" @click.prevent="openModal">
+          <button
+            class="btn btn_primary"
+            @click.prevent="openModal('createCardModal')"
+          >
             Create a card
+          </button>
+          <button
+            class="btn btn_warning"
+            @click.prevent="openModal('deckFormModal')"
+          >
+            Edit a deck
           </button>
         </div>
         <hr class="divide" />
@@ -111,8 +120,15 @@ export default {
     }
   },
   methods: {
-    openModal() {
-      this.$modal.open({ name: 'createCardModal' })
+    openModal(name) {
+      if (name === 'createCardModal') {
+        this.$modal.open({ name: 'createCardModal' })
+      } else if (name === 'deckFormModal') {
+        this.$modal.open({
+          name: 'deckFormModal',
+          payload: { ...this.deck, id: this.$route.params.id },
+        })
+      }
     },
     closeModal() {
       this.$modal.close({ name: 'createCardModal' })
