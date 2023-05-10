@@ -37,7 +37,9 @@
         >
           Close
         </button>
-        <button class="btn btn_success ml_3" type="submit">Create</button>
+        <button class="btn btn_success ml_3" type="submit">
+          {{ editedDeck && editedDeck.id ? 'Edit' : 'Create' }}
+        </button>
       </div>
     </form>
   </div>
@@ -51,6 +53,7 @@ export default {
       required: false,
       // eslint-disable-next-line vue/require-valid-default-prop
       default: () => ({
+        id: '',
         name: '',
         description: '',
         thumbnail: '',
@@ -62,6 +65,7 @@ export default {
       editedDeck: this.deck
         ? { ...this.deck }
         : {
+            id: '',
             name: '',
             description: '',
             thumbnail: '',
