@@ -83,7 +83,26 @@ const createStore = () => {
           console.log(result.data.name)
 
           context.commit('addDeck', { ...deckData, id: result.data.namne })
-        } catch (e) {}
+        } catch (e) {
+          context.error(e)
+        }
+      },
+      async editDeck(context, deckData) {
+        const deckId = deckData.id
+        delete deckData.id
+
+        try {
+          const result = await axios.put(
+            `https://nuxt-js-basic-default-rtdb.firebaseio.com/decks/${deckId}.json`,
+            deckData
+          )
+          // eslint-disable-next-line no-console
+          console.log(result.data)
+
+          context.commit('editDeck', { ...result.data, id: deckId })
+        } catch (e) {
+          context.error(e)
+        }
       },
       // setDecks(vuexContext, decks) {
       //   vuexContext.commit('setDecks', decks)

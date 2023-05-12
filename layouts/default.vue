@@ -16,8 +16,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-
 import DeckForm from '@/components/Decks/DeckForm'
 import DefaultHeader from '@/components/Header/DefaultHeader.vue'
 import DefaultFooter from '@/components/Footer/DefaultFooter.vue'
@@ -35,18 +33,10 @@ export default {
           .dispatch('addDeck', deckData)
           .then(() => this.$modal.close({ name: 'deckFormModal' }))
       } else {
-        const deckId = deckData.id
-        delete deckData.id
-
-        axios
-          .put(
-            `https://nuxt-js-basic-default-rtdb.firebaseio.com/decks/${deckId}.json`,
-            deckData
-          )
-          .then((data) => {
-            // eslint-disable-next-line no-console
-            console.log(data)
-          })
+        this.$store.dispatch('editDeck', deckData).then(() => {
+          this.$modal.close({ name: 'deckFormModal' })
+          this.$router.push('/decks')
+        })
       }
     },
   },
