@@ -31,15 +31,9 @@ export default {
   methods: {
     onSubmit(deckData) {
       if (deckData && !deckData.id) {
-        axios
-          .post(
-            'https://nuxt-js-basic-default-rtdb.firebaseio.com/decks.json',
-            deckData
-          )
-          .then((data) => {
-            // eslint-disable-next-line no-console
-            console.log(data)
-          })
+        this.$store
+          .dispatch('addDeck', deckData)
+          .then(() => this.$modal.close({ name: 'deckFormModal' }))
       } else {
         const deckId = deckData.id
         delete deckData.id

@@ -32,7 +32,7 @@
         </div>
       </div>
 
-      <!-- Modal -->
+      <!-- Create Card Modal -->
       <VueModal name="createCardModal">
         <div class="modal_body">
           <h2>Create a new card</h2>

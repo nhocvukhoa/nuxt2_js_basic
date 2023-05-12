@@ -15,6 +15,16 @@ const createStore = () => {
     },
     // Biến đổi dữ liệu của state
     mutations: {
+      addDeck(state, newDeck) {
+        state.decks.push(newDeck)
+      },
+      editDeck(state, editDeck) {
+        const deckIndex = state.decks.findIndex(
+          (deck) => deck.id === editDeck.id
+        )
+
+        state.decks[deckIndex] = editDeck
+      },
       setDecks(state, decks) {
         state.decks = decks
       },
@@ -62,6 +72,18 @@ const createStore = () => {
         }
 
         context.commit('setDecks', decksArr)
+      },
+      async addDeck(context, deckData) {
+        try {
+          const result = await axios.post(
+            'https://nuxt-js-basic-default-rtdb.firebaseio.com/decks.json',
+            deckData
+          )
+          // eslint-disable-next-line no-console
+          console.log(result.data.name)
+
+          context.commit('addDeck', { ...deckData, id: result.data.namne })
+        } catch (e) {}
       },
       // setDecks(vuexContext, decks) {
       //   vuexContext.commit('setDecks', decks)
