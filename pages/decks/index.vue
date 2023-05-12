@@ -10,59 +10,20 @@
       <ul class="decks-list">
         <deck-list
           v-for="deck in decks"
-          :id="deck._id"
-          :key="deck._id"
+          :id="deck.id"
+          :key="deck.id"
           :name="deck.name"
           :description="deck.description"
           :thumbnail="deck.thumbnail"
         />
       </ul>
     </div>
-    <VueModal name="createDeckModal">
-      <div class="modal_body">
-        <h2>Create deck</h2>
-        <form action="">
-          <div class="form_group">
-            <label for="">Name:</label>
-            <input
-              type="text"
-              class="form_control"
-              placeholder="Please enter deck name"
-            />
-          </div>
-          <div class="form_group">
-            <label for="">Description:</label>
-            <textarea
-              class="form_control"
-              cols="30"
-              rows="10"
-              placeholder="Please enter description"
-            ></textarea>
-          </div>
-          <div class="form_group">
-            <label for="">Thumbnail:</label>
-            <input type="file" />
-            <div class="previewImage"></div>
-          </div>
-          <div class="form_group d_flex justify_content_end">
-            <button
-              class="btn btn_danger btnCloseModal"
-              @click.prevent="closeModal"
-            >
-              Close
-            </button>
-            <button class="btn btn_success ml_3" @click.prevent="createDeck">
-              Create
-            </button>
-          </div>
-        </form>
-      </div>
-    </VueModal>
   </div>
 </template>
 
 <script>
 import DeckList from '@/components/Decks/DeckList'
+
 export default {
   components: {
     DeckList,
@@ -136,10 +97,7 @@ export default {
   },
   methods: {
     openModal() {
-      this.$modal.open({ name: 'createDeckModal' })
-    },
-    closeModal() {
-      this.$modal.close({ name: 'createDeckModal' })
+      this.$modal.open({ name: 'deckFormModal' })
     },
   },
 }
