@@ -61,9 +61,7 @@ const createStore = () => {
         // })
         // vuexContext.commit('setDecks', data.decks)
         // *** Fetch API bằng axios
-        const response = await axios.get(
-          'https://nuxt-js-basic-default-rtdb.firebaseio.com/decks.json'
-        )
+        const response = await axios.get(process.env.baseApiUrl + '/decks.json')
 
         const decksArr = []
 
@@ -76,7 +74,7 @@ const createStore = () => {
       async addDeck(context, deckData) {
         try {
           const result = await axios.post(
-            'https://nuxt-js-basic-default-rtdb.firebaseio.com/decks.json',
+            process.env.baseApiUrl + '/decks.json',
             deckData
           )
           // eslint-disable-next-line no-console
@@ -93,7 +91,7 @@ const createStore = () => {
 
         try {
           const result = await axios.put(
-            `https://nuxt-js-basic-default-rtdb.firebaseio.com/decks/${deckId}.json`,
+            `${process.env.baseApiUrl}/decks/${deckId}.json`,
             deckData
           )
           // eslint-disable-next-line no-console

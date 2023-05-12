@@ -63,4 +63,12 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  // Config URL
+  env: {
+    baseURL: process.env.BASE_URL || 'http://localhost:3000',
+    baseApiUrl:
+      process.env.BASE_API_URL ||
+      'https://nuxt-js-basic-default-rtdb.firebaseio.com',
+  },
 }
