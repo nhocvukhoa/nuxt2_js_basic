@@ -119,6 +119,12 @@ export default {
       ],
     }
   },
+  // Head này là một method, hứng được dữ liệu
+  head() {
+    return {
+      title: `Deck ${this.deck.name}`,
+    }
+  },
   methods: {
     openModal(name) {
       if (name === 'createCardModal') {
