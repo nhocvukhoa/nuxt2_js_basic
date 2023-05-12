@@ -91,7 +91,7 @@ export default {
     console.log(context)
     try {
       const response = await axios.get(
-        `https://nuxt-js-basic-default-rtdb.firebaseio.com/decks/${context.params.id}.json`
+        `${process.env.baseApiUrl}/decks/${context.params.id}.json`
       )
 
       return {
