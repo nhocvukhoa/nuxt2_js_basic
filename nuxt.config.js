@@ -20,6 +20,9 @@ export default {
     ],
   },
 
+  // Customize the progress-bar color
+  loading: { color: '#fff', height: '2px' },
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ['~/assets/css/rhpteam.min.css', '~/assets/css/external.css'],
 
