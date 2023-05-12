@@ -28,6 +28,10 @@ export default {
   components: {
     DeckList,
   },
+  // head này là một thuộc tính ko phải một method, ko hứng được dữ liệu
+  head: {
+    title: 'Decks',
+  },
   // *** asyncData
   // 1. Nuxt hoạt động khi lần đầu tiên trang web dc refresh thì lúc đó sử dụng sever render các DOM để các search engine có thể đọc được
   // 2. Nên khi resfresh lần đầu tiên thì asyncData đang hoạt động với nuxt trên server nên console sẽ xuất hiện trong terminal của serve
