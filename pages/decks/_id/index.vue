@@ -17,6 +17,9 @@
           >
             Edit a deck
           </button>
+          <button class="btn btn_danger" @click.prevent="removeDeck">
+            Remove deck
+          </button>
         </div>
         <hr class="divide" />
         <div class="cards">
@@ -138,6 +141,13 @@ export default {
     },
     closeModal() {
       this.$modal.close({ name: 'createCardModal' })
+    },
+    removeDeck() {
+      const deckId = this.$route.params.id
+
+      this.$store
+        .dispatch('removeDeck', deckId)
+        .then(() => this.$router.push('/decks'))
     },
   },
 }

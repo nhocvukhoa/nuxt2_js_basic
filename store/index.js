@@ -25,6 +25,9 @@ const createStore = () => {
 
         state.decks[deckIndex] = editDeck
       },
+      removeDeck(state, deckData) {
+        state.decks = state.decks.filter((deck) => deck.id !== deckData)
+      },
       setDecks(state, decks) {
         state.decks = decks
       },
@@ -101,6 +104,13 @@ const createStore = () => {
         } catch (e) {
           context.error(e)
         }
+      },
+      async removeDeck(context, deckData) {
+        try {
+          await axios.delete(`${process.env.baseApiUrl}/decks/${deckData}.json`)
+
+          context.commit('removeDeck', deckData)
+        } catch (err) {}
       },
       // setDecks(vuexContext, decks) {
       //   vuexContext.commit('setDecks', decks)
