@@ -27,7 +27,7 @@ export default {
   css: ['~/assets/css/rhpteam.min.css', '~/assets/css/external.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/modals/v-modal.js'],
+  plugins: ['~/plugins/modals/v-modal.js', '~/plugins/core-component.js'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
