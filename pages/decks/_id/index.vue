@@ -81,8 +81,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-
 import CardList from '@/components/Cards/CardList'
 export default {
   components: {
@@ -93,12 +91,12 @@ export default {
     // eslint-disable-next-line no-console
     console.log(context)
     try {
-      const response = await axios.get(
+      const data = await context.app.$axios.$get(
         `${process.env.baseApiUrl}/decks/${context.params.id}.json`
       )
 
       return {
-        deck: response.data,
+        deck: data,
       }
     } catch (e) {
       context.error(e)
