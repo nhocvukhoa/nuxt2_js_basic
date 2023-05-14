@@ -1,5 +1,4 @@
 import Vuex from 'vuex'
-import axios from 'axios'
 
 const createStore = () => {
   // eslint-disable-next-line import/no-named-as-default-member
@@ -38,7 +37,7 @@ const createStore = () => {
       // Nó chỉ được gọi trên máy chủ và được sử dụng để điền dữ liệu lưu trữ cần có ở mỗi lần tải lại trang.
       // Phương thức này là 1 action của VueX, nếu nó được khai báo trong store thì Nuxt.js sẽ gọi action này mỗi khi Nuxt.js bắt đầu lifecycle mới.
       // Do đó phương thức này rất hữu ích khi chúng ta muốn nhận và lưu trữ dữ liệu dùng chung cho tất cả pages từ server vào store của client.
-      async nuxtServerInit(context) {
+      async nuxtServerInit(vuexContext, context) {
         // *** Fetch API kiểu tự tạo dữ liệu
         // const data = await new Promise((resolve, reject) => {
         //   setTimeout(() => {
@@ -64,52 +63,56 @@ const createStore = () => {
         // })
         // vuexContext.commit('setDecks', data.decks)
         // *** Fetch API bằng axios
-        const response = await axios.get(process.env.baseApiUrl + '/decks.json')
+        const data = await context.app.$axios.$get(
+          process.env.baseApiUrl + '/decks.json'
+        )
 
         const decksArr = []
 
-        for (const key in response.data) {
-          decksArr.push({ ...response.data[key], id: key })
+        for (const key in data) {
+          decksArr.push({ ...data[key], id: key })
         }
 
-        context.commit('setDecks', decksArr)
+        vuexContext.commit('setDecks', decksArr)
       },
-      async addDeck(context, deckData) {
+      async addDeck(vuexContext, deckData) {
         try {
-          const result = await axios.post(
+          const data = await this.$axios.$post(
             process.env.baseApiUrl + '/decks.json',
             deckData
           )
           // eslint-disable-next-line no-console
-          console.log(result.data.name)
+          console.log(data.name)
 
-          context.commit('addDeck', { ...deckData, id: result.data.namne })
+          vuexContext.commit('addDeck', { ...deckData, id: data.name })
         } catch (e) {
-          context.error(e)
+          vuexContext.error(e)
         }
       },
-      async editDeck(context, deckData) {
+      async editDeck(vuexContext, deckData) {
         const deckId = deckData.id
         delete deckData.id
 
         try {
-          const result = await axios.put(
+          const data = await this.$axios.$put(
             `${process.env.baseApiUrl}/decks/${deckId}.json`,
             deckData
           )
           // eslint-disable-next-line no-console
-          console.log(result.data)
+          console.log(data)
 
-          context.commit('editDeck', { ...result.data, id: deckId })
+          vuexContext.commit('editDeck', { ...data, id: deckId })
         } catch (e) {
-          context.error(e)
+          vuexContext.error(e)
         }
       },
-      async removeDeck(context, deckData) {
+      async removeDeck(vuexContext, deckData) {
         try {
-          await axios.delete(`${process.env.baseApiUrl}/decks/${deckData}.json`)
+          await this.$axios.$delete(
+            `${process.env.baseApiUrl}/decks/${deckData}.json`
+          )
 
-          context.commit('removeDeck', deckData)
+          vuexContext.commit('removeDeck', deckData)
         } catch (err) {}
       },
       // setDecks(vuexContext, decks) {
