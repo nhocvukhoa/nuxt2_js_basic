@@ -2,7 +2,7 @@
   <div class="auth_page">
     <div class="card card_form">
       <div class="card_body">
-        <h3 class="text_center">Register</h3>
+        <h3 class="text_center">Login</h3>
         <form @submit.prevent="onSubmit">
           <div class="form_group">
             <label for="email">Email</label>
@@ -25,25 +25,15 @@
             />
           </div>
           <div class="form_group">
-            <label for="re-password">Re-password</label>
-            <input
-              id="re-password"
-              v-model="rePassword"
-              class="form_control"
-              type="password"
-              placeholder="123456"
-            />
-          </div>
-          <div class="form_group">
             <button type="submit" class="btn btn_success btn_submit">
-              Register
+              Login
             </button>
           </div>
         </form>
         <div class="other text_center">
           <span
-            >Have you account?
-            <nuxt-link to="/login" tag="a">Login here</nuxt-link></span
+            >Haven't you account?
+            <nuxt-link to="/register" tag="a">Register here</nuxt-link></span
           >
         </div>
       </div>
@@ -58,39 +48,28 @@ export default {
     return {
       email: '',
       password: '',
-      rePassword: '',
     }
   },
   methods: {
-    checkValidPassword() {
-      return this.password === this.rePassword
-    },
     onSubmit() {
-      const validPassword = this.checkValidPassword()
-
-      if (validPassword) {
-        // call api from firebase
-        this.$axios
-          .$post(
-            `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.fbApiKey}`,
-            {
-              email: this.email,
-              password: this.password,
-              returnSecureToken: true,
-            }
-          )
-          // eslint-disable-next-line no-console
-          .then((data) => {
-            // eslint-disable-next-line no-console
-            console.log(data)
-            this.$router.push('/')
-          })
-          // eslint-disable-next-line no-console
-          .catch((e) => console.log(e))
-      } else {
+      // call api from firebase
+      this.$axios
+        .$post(
+          `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.fbApiKey}`,
+          {
+            email: this.email,
+            password: this.password,
+            returnSecureToken: true,
+          }
+        )
         // eslint-disable-next-line no-console
-        console.log('Password is valid')
-      }
+        .then((data) => {
+          // eslint-disable-next-line no-console
+          console.log(data)
+          this.$router.push('/')
+        })
+        // eslint-disable-next-line no-console
+        .catch((e) => console.log(e))
     },
   },
 }
