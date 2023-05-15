@@ -72,5 +72,6 @@ export default {
     baseApiUrl:
       process.env.BASE_API_URL ||
       'https://nuxt-js-basic-default-rtdb.firebaseio.com',
+    fbApiKey: 'AIzaSyA2T1H4QC9lMJW8z3sTeZCn3gZrPxLvItA',
   },
 }
