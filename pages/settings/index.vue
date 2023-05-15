@@ -4,6 +4,12 @@
   </div>
 </template>
 
+<script>
+export default {
+  middleware: 'router-log',
+}
+</script>
+
 <style lang="scss" scoped>
 .main {
   margin-left: 3rem;
