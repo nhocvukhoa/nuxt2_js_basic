@@ -73,6 +73,8 @@ export default {
               returnSecureToken: true,
             }
           )
+
+          this.$router.push('/')
         } catch (e) {
           // eslint-disable-next-line no-console
           console.log(e)
