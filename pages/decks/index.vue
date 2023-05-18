@@ -28,6 +28,7 @@ export default {
   components: {
     DeckList,
   },
+  middleware: 'auth',
   // head này là một thuộc tính ko phải một method, ko hứng được dữ liệu
   head: {
     title: 'Decks',

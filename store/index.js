@@ -12,6 +12,9 @@ const createStore = () => {
       decks(state) {
         return state.decks
       },
+      isAuthenticated(state) {
+        return state.token != null
+      },
     },
     // Biến đổi dữ liệu của state
     mutations: {
