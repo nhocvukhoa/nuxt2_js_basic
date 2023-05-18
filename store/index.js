@@ -5,6 +5,7 @@ const createStore = () => {
   return new Vuex.Store({
     state: {
       decks: [],
+      token: null,
     },
     // Tạo ra những chiếc xe
     getters: {
@@ -29,6 +30,9 @@ const createStore = () => {
       },
       setDecks(state, decks) {
         state.decks = decks
+      },
+      setToken(state, token) {
+        state.token = token
       },
     },
     // Các hàm được thực thi
@@ -115,9 +119,29 @@ const createStore = () => {
           vuexContext.commit('removeDeck', deckData)
         } catch (err) {}
       },
-      // setDecks(vuexContext, decks) {
-      //   vuexContext.commit('setDecks', decks)
-      // },
+      authenticateUser(vuexContext, credentials) {
+        return new Promise((resolve, reject) => {
+          let checkLoginOrRegister = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.fbApiKey}`
+
+          if (!credentials.isLogin) {
+            checkLoginOrRegister = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.fbApiKey}`
+          }
+
+          this.$axios
+            .$post(checkLoginOrRegister, {
+              email: credentials.email,
+              password: credentials.password,
+              returnSecureToken: true,
+            })
+            .then((result) => {
+              vuexContext.commit('setToken', result.idToken)
+              resolve({ success: true })
+            })
+            .catch((error) => {
+              reject(error.response)
+            })
+        })
+      },
     },
   })
 }
