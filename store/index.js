@@ -82,7 +82,9 @@ const createStore = () => {
       async addDeck(vuexContext, deckData) {
         try {
           const data = await this.$axios.$post(
-            process.env.baseApiUrl + '/decks.json',
+            process.env.baseApiUrl +
+              '/decks.json?auth=' +
+              vuexContext.state.token,
             deckData
           )
           // eslint-disable-next-line no-console
@@ -99,7 +101,11 @@ const createStore = () => {
 
         try {
           const data = await this.$axios.$put(
-            `${process.env.baseApiUrl}/decks/${deckId}.json`,
+            process.env.baseApiUrl +
+              '/decks/' +
+              deckId +
+              '.json?auth=' +
+              vuexContext.state.token,
             deckData
           )
           // eslint-disable-next-line no-console
