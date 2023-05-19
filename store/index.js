@@ -5,11 +5,15 @@ const createStore = () => {
   return new Vuex.Store({
     state: {
       decks: [],
+      token: null,
     },
     // Tạo ra những chiếc xe
     getters: {
       decks(state) {
         return state.decks
+      },
+      isAuthenticated(state) {
+        return state.token != null
       },
     },
     // Biến đổi dữ liệu của state
@@ -29,6 +33,12 @@ const createStore = () => {
       },
       setDecks(state, decks) {
         state.decks = decks
+      },
+      setToken(state, token) {
+        state.token = token
+      },
+      clearToken(state) {
+        state.token = null
       },
     },
     // Các hàm được thực thi
@@ -78,7 +88,9 @@ const createStore = () => {
       async addDeck(vuexContext, deckData) {
         try {
           const data = await this.$axios.$post(
-            process.env.baseApiUrl + '/decks.json',
+            process.env.baseApiUrl +
+              '/decks.json?auth=' +
+              vuexContext.state.token,
             deckData
           )
           // eslint-disable-next-line no-console
@@ -95,7 +107,11 @@ const createStore = () => {
 
         try {
           const data = await this.$axios.$put(
-            `${process.env.baseApiUrl}/decks/${deckId}.json`,
+            process.env.baseApiUrl +
+              '/decks/' +
+              deckId +
+              '.json?auth=' +
+              vuexContext.state.token,
             deckData
           )
           // eslint-disable-next-line no-console
@@ -115,9 +131,50 @@ const createStore = () => {
           vuexContext.commit('removeDeck', deckData)
         } catch (err) {}
       },
-      // setDecks(vuexContext, decks) {
-      //   vuexContext.commit('setDecks', decks)
-      // },
+      authenticateUser(vuexContext, credentials) {
+        return new Promise((resolve, reject) => {
+          let checkLoginOrRegister = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.fbApiKey}`
+
+          if (!credentials.isLogin) {
+            checkLoginOrRegister = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.fbApiKey}`
+          }
+
+          this.$axios
+            .$post(checkLoginOrRegister, {
+              email: credentials.email,
+              password: credentials.password,
+              returnSecureToken: true,
+            })
+            .then((result) => {
+              vuexContext.commit('setToken', result.idToken)
+              localStorage.setItem('token', result.idToken)
+              // tokenExpiration: khoảng thời gian hết hạn
+              localStorage.setItem(
+                'tokenExpiration',
+                new Date().getTime() + result.expiresIn * 1000
+              )
+              // expiresIn: thời hạn bao lâu
+              vuexContext.dispatch('setLogoutTimer', result.expiresIn * 1000)
+              resolve({ success: true })
+            })
+            .catch((error) => {
+              reject(error.response)
+            })
+        })
+      },
+      setLogoutTimer(vuexContext, duration) {
+        setTimeout(() => {
+          vuexContext.commit('clearToken')
+        }, duration)
+      },
+      initAuth(vuexContext) {
+        const token = localStorage.getItem('token')
+        const tokenExpiration = localStorage.getItem('tokenExpiration')
+
+        if (!token || new Date().getTime() > tokenExpiration) return false
+
+        vuexContext.commit('setToken', token)
+      },
     },
   })
 }

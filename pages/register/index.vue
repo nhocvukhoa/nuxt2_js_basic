@@ -69,24 +69,18 @@ export default {
       const validPassword = this.checkValidPassword()
 
       if (validPassword) {
-        // call api from firebase
-        this.$axios
-          .$post(
-            `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.fbApiKey}`,
-            {
-              email: this.email,
-              password: this.password,
-              returnSecureToken: true,
-            }
-          )
-          // eslint-disable-next-line no-console
-          .then((data) => {
-            // eslint-disable-next-line no-console
-            console.log(data)
-            this.$router.push('/')
+        this.$store
+          .dispatch('authenticateUser', {
+            email: this.email,
+            password: this.password,
           })
-          // eslint-disable-next-line no-console
-          .catch((e) => console.log(e))
+          .then((result) => {
+            if (result.success) this.$router.push('/')
+          })
+          .catch((error) => {
+            // eslint-disable-next-line no-console
+            console.log(error)
+          })
       } else {
         // eslint-disable-next-line no-console
         console.log('Password is valid')
