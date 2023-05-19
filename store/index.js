@@ -37,6 +37,9 @@ const createStore = () => {
       setToken(state, token) {
         state.token = token
       },
+      clearToken(state) {
+        state.token = null
+      },
     },
     // Các hàm được thực thi
     actions: {
@@ -144,12 +147,18 @@ const createStore = () => {
             })
             .then((result) => {
               vuexContext.commit('setToken', result.idToken)
+              vuexContext.dispatch('setLogoutTimer', result.expiresIn)
               resolve({ success: true })
             })
             .catch((error) => {
               reject(error.response)
             })
         })
+      },
+      setLogoutTimer(vuexContext, duration) {
+        setTimeout(() => {
+          vuexContext.commit('clearToken')
+        }, duration)
       },
     },
   })
