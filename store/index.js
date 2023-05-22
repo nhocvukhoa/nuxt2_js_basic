@@ -190,7 +190,10 @@ const createStore = () => {
             .split(';')
             .find((c) => c.trim().startsWith('tokenExpirationKey='))
 
-          if (!tokenKey || !tokenExpirationKey) return false
+          if (!tokenKey || !tokenExpirationKey) {
+            vuexContext.dispatch('logout')
+            return false
+          }
 
           token = tokenKey.split('=')[1]
           tokenExpiration = tokenExpirationKey.split('=')[1]
@@ -198,7 +201,10 @@ const createStore = () => {
           const token = localStorage.getItem('token')
           const tokenExpiration = localStorage.getItem('tokenExpiration')
 
-          if (!token || new Date().getTime() > tokenExpiration) return false
+          if (!token || new Date().getTime() > tokenExpiration) {
+            vuexContext.dispatch('logout')
+            return false
+          }
         }
 
         vuexContext.dispatch(
@@ -208,6 +214,14 @@ const createStore = () => {
         // eslint-disable-next-line no-console
         console.log(req)
         vuexContext.commit('setToken', token)
+      },
+      logout(vuexContext) {
+        vuexContext.commit('clearToken')
+        Cookies.remove('token')
+        Cookies.remove('tokenExpiration')
+
+        localStorage.removeItem('token')
+        localStorage.removeItem('tokenExpiration')
       },
     },
   })
