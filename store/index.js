@@ -1,4 +1,5 @@
 import Vuex from 'vuex'
+import Cookies from 'js-cookie'
 
 const createStore = () => {
   // eslint-disable-next-line import/no-named-as-default-member
@@ -147,12 +148,20 @@ const createStore = () => {
             })
             .then((result) => {
               vuexContext.commit('setToken', result.idToken)
+
               localStorage.setItem('token', result.idToken)
               // tokenExpiration: khoảng thời gian hết hạn
               localStorage.setItem(
                 'tokenExpiration',
                 new Date().getTime() + result.expiresIn * 1000
               )
+
+              Cookies.set('token', result.idToken)
+              Cookies.set(
+                'tokenExpiration',
+                new Date().getTime() + result.expiresIn * 1000
+              )
+
               // expiresIn: thời hạn bao lâu
               vuexContext.dispatch('setLogoutTimer', result.expiresIn * 1000)
               resolve({ success: true })
@@ -167,12 +176,37 @@ const createStore = () => {
           vuexContext.commit('clearToken')
         }, duration)
       },
-      initAuth(vuexContext) {
-        const token = localStorage.getItem('token')
-        const tokenExpiration = localStorage.getItem('tokenExpiration')
+      initAuth(vuexContext, req) {
+        let token, tokenExpiration
 
-        if (!token || new Date().getTime() > tokenExpiration) return false
+        if (req) {
+          // Handle first time go to page
+          if (!req.headers.cookie) return false
 
+          const tokenKey = req.headers.cookie
+            .split(';')
+            .find((c) => c.trim().startsWith('token='))
+          const tokenExpirationKey = req.headers.cookie
+            .split(';')
+            .find((c) => c.trim().startsWith('tokenExpirationKey='))
+
+          if (!tokenKey || !tokenExpirationKey) return false
+
+          token = tokenKey.split('=')[1]
+          tokenExpiration = tokenExpirationKey.split('=')[1]
+        } else {
+          const token = localStorage.getItem('token')
+          const tokenExpiration = localStorage.getItem('tokenExpiration')
+
+          if (!token || new Date().getTime() > tokenExpiration) return false
+        }
+
+        vuexContext.dispatch(
+          'setLogoutTimer',
+          tokenExpiration - new Date().getTime()
+        )
+        // eslint-disable-next-line no-console
+        console.log(req)
         vuexContext.commit('setToken', token)
       },
     },

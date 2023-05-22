@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  middleware: ['check-auth', 'auth'],
+  middleware: ['server-auth'],
 }
 </script>
 
